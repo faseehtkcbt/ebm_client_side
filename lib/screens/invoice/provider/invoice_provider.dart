@@ -29,6 +29,8 @@ class InvoiceProvider extends ChangeNotifier {
   String? selectedSalesMan;
   Invoice? invoiceForUpdate;
   int? invoiceUnique;
+  List<Product> productByCategory = [];
+
   addInvoice() async {
     invoiceUnique = _generateUniqueInvoiceId();
     try {
@@ -63,6 +65,7 @@ class InvoiceProvider extends ChangeNotifier {
       rethrow;
     }
   }
+
   updateInvoice()async{
     try{
       Map<String, dynamic> formDataMap = {
@@ -114,6 +117,14 @@ class InvoiceProvider extends ChangeNotifier {
       SnackBarHelper.showErrorSnackBar('An Error Occured:$e');
       rethrow;
     }
+  }
+  filterProducts(Customer customer) {
+    _productEntries = [];
+    selectedCustomer = customer;
+    productByCategory.clear();
+    final newList = _dataProvider.products.where((product)=>product.categoryId.id == customer.category?.id).toList();
+    productByCategory = newList;
+    notifyListeners();
   }
   void submitInvoice(){
     measureValues();

@@ -85,7 +85,7 @@ class _InvoiceFormState extends State<InvoiceForm> {
                             displayItem: (Customer customer) =>
                             customer.name ?? '',
                             onChanged: (newValue) {
-                              invoiceProvider.selectedCustomer = newValue;
+                              invoiceProvider.filterProducts(newValue!);
                             },
                             validator: (value) {
                               if (value == null) {
@@ -146,7 +146,7 @@ class _InvoiceFormState extends State<InvoiceForm> {
                           flex: 2,
                           child: DropdownButtonFormField<Product>(
                             value: productEntry.selectedProduct,
-                            items: context.dataProvider.products
+                            items: context.invoiceProvider.productByCategory
                                 .map((product) => DropdownMenuItem<Product>(
                               value: product,
                               child: Text(product.name),

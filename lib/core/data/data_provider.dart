@@ -82,7 +82,6 @@ class DataProvider extends ChangeNotifier {
     getAllInvoice();
   //   getAllSubCategory();
     getAllBrands();
-    getAllSales();
   //   getAllVariantType();
   //   getAllVariant();
   //   getAllPosters();
@@ -164,6 +163,7 @@ class DataProvider extends ChangeNotifier {
         _filteredInvoice = List.from(_allInvoice);
         notifyListeners();
         if (showSnack) SnackBarHelper.showSuccessSnackBar(apiResponse.message);
+        getAllSales();
       }
     } catch (e) {
       if (showSnack) SnackBarHelper.showErrorSnackBar(e.toString());
@@ -171,7 +171,7 @@ class DataProvider extends ChangeNotifier {
     }
     return _filteredInvoice;
   }
-  //
+
   // void filterInvoice(String keyword){
   //   if(keyword.isEmpty){
   //     _filteredInvoice = List.from(_allCategories);
@@ -219,8 +219,7 @@ class DataProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-  //
-  //
+
   // Future<List<SubCategory>> getAllSubCategory({bool showSnack = false}) async {
   //   try {
   //     Response response = await service.getItems(endpointUrl: 'subCategories');
@@ -604,6 +603,18 @@ class DataProvider extends ChangeNotifier {
   //   return totalOrders;
   // }
   //
+
+  filterSalesByCategory(){
+    Map<String,dynamic> sale = {};
+    for( var i in categories){
+      final invoiceList = [];
+      for(var j in invoice){
+          if(j.customerId.category ==  i.sId){
+            invoiceList.add(j);
+          }
+      }
+    }
+  }
   void filterProductsByQuantity(String productQntType) {
     if (productQntType == 'All Product') {
       _filteredProducts = List.from(_allProducts);
